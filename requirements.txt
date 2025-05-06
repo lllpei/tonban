@@ -1,6 +1,7 @@
 ﻿# Web サーバー本体
 Flask==3.0.2        # API エンドポイント用
 hypercorn==0.16.0   # Render の $PORT を自動検出して ASGI 起動
+pandas==2.2.2       # DataFrame で一括 INSERT
 
 # （任意）環境変数読み込みや高速化をしたい場合は下記を追加
 # python-dotenv==1.0.1   # .env ファイルを使うとき
