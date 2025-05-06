@@ -280,20 +280,13 @@ def create_indexes() -> None:
 # エントリポイント (Hypercorn)
 # ──────────────────────────────────────────────
 if __name__ == "__main__":
-    import asyncio
-    import hypercorn.asyncio
-    from hypercorn.config import Config
-
-    # インデックスはアプリ起動時に一度だけ作成しておく
+    # インデックス作成
     create_indexes()
+    logger.info("インデックス作成完了")
 
-    port = int(os.getenv("PORT", "10010"))
-    workers = int(os.getenv("WORKERS", "1"))
+    # ポート設定
+    port = int(os.environ.get("PORT", 10010))
+    logger.info(f"Tonban API サーバー起動: http://0.0.0.0:{port}")
 
-    cfg = Config()
-    cfg.bind = [f"0.0.0.0:{port}"]
-    cfg.workers = workers
-    cfg.keep_alive_timeout = 65
-
-    logger.info("Tonban API サーバー起動: http://0.0.0.0:%d", port)
-    asyncio.run(hypercorn.asyncio.serve(app, cfg))
+    # ASGIアプリケーションとして設定
+    asgi_app = app
